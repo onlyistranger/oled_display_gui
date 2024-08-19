@@ -35,6 +35,9 @@ class VideoModeWindow(object):
         self.timer.setTimerType(0)  # Precise timers try to keep millisecond accuracy
         self.timer.timeout.connect(self.videoSendProcess)
 
+        # remember last slider
+        self.lastSliderTime = 0
+
     def init_signal(self):
         # connect signal and slot
         # tab widget
@@ -170,6 +173,11 @@ class VideoModeWindow(object):
     def previewSilderUpdate(self):
         if self.videoSending:
             return None
+        # the slider don't need response too fast, and this will save some cpu time.
+        current_time = time.time()
+        if current_time < self.lastSliderTime + 0.1:
+            return None
+        self.lastSliderTime = current_time
         # get current slider value
         index = self.main_ui.horizontalSlider_videoPreviewFrameOffset.value()
         # read frame specified

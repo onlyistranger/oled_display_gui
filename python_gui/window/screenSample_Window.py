@@ -7,6 +7,8 @@ from UI.screenSampleWindow import Ui_Form_screenSampleWindow
 from screen import ScreenDraw, ScreenGet
 from image_processing.Qt2CV import QPixmap2OpenCVImage
 
+import time
+
 
 class ScreenSampleWindow(QWidget):
 
@@ -16,6 +18,7 @@ class ScreenSampleWindow(QWidget):
         # mouse tracking
         self.setMouseTracking(True)
         self.mouse_button_pressed = False
+        self.last_mouse_track_time = 0
 
         # connect window ui and Widget
         self.window_ui = Ui_Form_screenSampleWindow()
@@ -59,6 +62,12 @@ class ScreenSampleWindow(QWidget):
                     event.accept()
 
     def mouseMoveEvent(self, event):
+        # mouse move tracking don't need too fast, otherwise it will crash
+        current_time = time.time()
+        if current_time < self.last_mouse_track_time + 0.1:
+            return None
+        self.last_mouse_track_time = current_time
+
         if self.mouse_button_pressed:
             x = event.globalX()
             y = event.globalY()
