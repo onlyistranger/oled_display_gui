@@ -7,6 +7,7 @@ from image_processing.BWImageToBytes import BWImageToBytes
 from common.Singleton import Singleton
 
 from ctypes import CDLL, c_uint8, c_int
+import platform
 
 class OutputImagesStructure(object):
     def __init__(self):
@@ -140,7 +141,10 @@ class ImageTranslate(object):
         self.thread.join()
 
     def load_dll(self):
-        dll_lib = CDLL("./image_processing/image_processing.dll")
+        if platform.architecture()[0] == "64bit":
+            dll_lib = CDLL("./image_processing/image_processing_x64.dll")
+        else:
+            dll_lib = CDLL("./image_processing/image_processing.dll")
         self.dithering = dll_lib.dithering
         self.error_diffusion = dll_lib.error_diffusion
 
@@ -231,6 +235,7 @@ class ImageTranslate(object):
         try:
             return self.output_queue.get(timeout=0.1)
         except:
+            print("read_images failed!")
             return None
 
     def install_complete_callback(self, callback):

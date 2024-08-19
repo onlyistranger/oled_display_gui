@@ -3,6 +3,7 @@ import numpy as np
 from common.Singleton import Singleton
 
 from ctypes import CDLL, c_uint8, c_int, Structure
+import platform
 
 @Singleton
 class BWImageToBytes(object):
@@ -35,7 +36,10 @@ class BWImageToBytes(object):
             ("sign_bit", c_int)]
 
     def load_dll(self):
-        dll_lib = CDLL("./image_processing/image_processing.dll")
+        if platform.architecture()[0] == "64bit":
+            dll_lib = CDLL("./image_processing/image_processing_x64.dll")
+        else:
+            dll_lib = CDLL("./image_processing/image_processing.dll")
         self.bw2bytes_func = dll_lib.bw2Bytes
 
         # set args type

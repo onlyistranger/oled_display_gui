@@ -61,9 +61,9 @@ int dithering(uint8_t* image, int w, int h, int bayer_size)
 	// chose bayer matrix
 	switch (bayer_size)
 	{
-		case 4:		bayer_p = bayer_metrix_4x4;		break;
-		case 8:		bayer_p = bayer_metrix_8x8;		break;
-		case 16:	bayer_p = bayer_metrix_16x16;	break;
+		case 4:		bayer_p = (uint8_t *)bayer_metrix_4x4;		break;
+		case 8:		bayer_p = (uint8_t *)bayer_metrix_8x8;		break;
+		case 16:	bayer_p = (uint8_t *)bayer_metrix_16x16;	break;
 		default:	return -1;
 	}
 
@@ -305,3 +305,4 @@ int bw2Bytes(uint8_t* image, uint8_t* bytes, int w, int h, bw2bytes_config_t con
 
 	return 0;
 }
+
