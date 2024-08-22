@@ -108,8 +108,11 @@ class ImageModeWindow(object):
             self.lastFolderPath = path.dirname(filename)
             self.main_ui.lineEdit_imageFileName.setText(filename)
             self.image_raw = cv.imread(filename)
+            try:
+                h, w, n = self.image_raw.shape
+            except:
+                return
             self.setImageWidgetEnable(True)
-            h, w, n = self.image_raw.shape
             k = w / h
             height = self.main_ui.label_previewWindow.height()
             width = int(k * height) - 1
