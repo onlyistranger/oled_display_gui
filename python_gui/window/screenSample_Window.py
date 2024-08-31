@@ -73,5 +73,7 @@ class ScreenSampleWindow(QWidget):
             y = event.globalY()
             self.move(x - self.dx, y - self.dy)
 
+    def stop(self):
+        self.screenShot.stop()
 
 

@@ -224,7 +224,7 @@ class ScreenModeWindow(object):
             self.sendMethod.send(data)
 
     def exit(self):
-        # self.sample_window.close()
+        self.sample_window.stop()
         # self.sample_window.destroy()
         self.screenShotTimer.stop()
         self.drawRectTimer.stop()
